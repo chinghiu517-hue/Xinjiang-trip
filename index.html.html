@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>新疆金秋初雪 8日7夜之旅</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --accent-color: #0284c7;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 84px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* 頂部 Header */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0284c7 100%);
+            color: white;
+            padding: 24px 20px 20px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: "❄️ 🏔️";
+            position: absolute;
+            right: 15px;
+            bottom: 10px;
+            font-size: 3rem;
+            opacity: 0.18;
+        }
+
+        .header h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            display: flex;
+            gap: 12px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* 內容容器 */
+        .container {
+            padding: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 卡片設計 */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .day-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-tag {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        /* 時間軸列表 */
+        .timeline {
+            list-style: none;
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: #cbd5e1;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            box-shadow: 0 0 0 3px white;
+        }
+
+        .time {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 2px;
+        }
+
+        .event-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .event-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* 地圖按鈕 */
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0f9ff;
+            color: #0284c7;
+            border: 1px solid #bae6fd;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 6px;
+            transition: all 0.2s;
+        }
+
+        .map-btn:active {
+            background: #e0f2fe;
+            transform: scale(0.97);
+        }
+
+        /* 表格與清單 */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            margin-top: 8px;
+        }
+
+        .info-table th, .info-table td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            background: #f8fafc;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        /* 底部導航列 */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 14px;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 20%;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item .icon {
+            font-size: 1.3rem;
+            margin-bottom: 2px;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .summary-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--accent-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頂部 Header -->
+    <div class="header">
+        <h1>新疆北疆 8日7夜金秋初雪之旅</h1>
+        <p>
+            <span>📅 2026.10.10 - 10.17</span>
+            <span class="badge">HX456 / CX997</span>
+        </p>
+    </div>
+
+    <div class="container">
+
+        <!-- TAB 1: 每日行程 -->
+        <div id="itinerary" class="tab-content active">
+            
+            <!-- Day 1 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">✈️ Day 1 <span class="date-tag">10/10 (六)</span></div>
+                    <span class="badge">抵達飛入</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">15:30 - 18:35</div>
+                        <div class="event-title">香港機場辦理登機</div>
+                        <div class="event-desc">乘搭香港航空 HX456 飛往烏魯木齊</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">18:35 - 01:15(+1)</div>
+                        <div class="event-title">直飛烏魯木齊</div>
+                        <div class="event-desc">降落地窩堡國際機場 (URC)</div>
+                        <a href="https://maps.google.com/?q=Ürümqi+Diwopu+International+Airport" target="_blank" class="map-btn">📍 導航：地窩堡機場</a>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">01:30 - 02:00</div>
+                        <div class="event-title">入住機場周邊酒店</div>
+                        <div class="event-desc">搭乘酒店免費接駁車，快速入住休息</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🏜️ Day 2 <span class="date-tag">10/11 (日)</span></div>
+                    <span class="badge">沙漠公路與五彩夕陽</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">09:00 - 16:00</div>
+                        <div class="event-title">包車出發：S21沙漠公路</div>
+                        <div class="event-desc">司機接人，穿越古爾班通古特沙漠至布爾津</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">17:00 - 19:30</div>
+                        <div class="event-title">五彩灘景區</div>
+                        <div class="event-desc">欣賞額爾齊斯河畔雅丹地貌落日絕景</div>
+                        <a href="https://maps.google.com/?q=Wucaitan+Burqin" target="_blank" class="map-btn">📍 導航：五彩灘景區</a>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">19:30 - 21:30</div>
+                        <div class="event-title">布爾津河堤夜市</div>
+                        <div class="event-desc">享用烤冷水魚、新疆羊肉串與格瓦斯</div>
+                        <a href="https://maps.google.com/?q=Burqin+Night+Market" target="_blank" class="map-btn">📍 導航：河堤夜市</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🌲 Day 3 <span class="date-tag">10/12 (一)</span></div>
+                    <span class="badge">神的後花園</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">09:30 - 13:00</div>
+                        <div class="event-title">前往喀納斯景區</div>
+                        <div class="event-desc">沿阿爾泰山脈盤山公路前進</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">14:00 - 18:30</div>
+                        <div class="event-title">遊覽「喀納斯三灣」</div>
+                        <div class="event-desc">依次打卡神仙灣、月亮灣、臥龍灣初雪霧凇</div>
+                        <a href="https://maps.google.com/?q=Kanas+Lake+Xinjiang" target="_blank" class="map-btn">📍 導航：喀納斯景區</a>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">19:00 - 21:00</div>
+                        <div class="event-title">入住喀納斯暖氣木屋</div>
+                        <div class="event-desc">享用新疆特色土火鍋/清燉羊肉</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">❄️ Day 4 <span class="date-tag">10/13 (二)</span></div>
+                    <span class="badge">童話禾木村</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">10:30 - 13:30</div>
+                        <div class="event-title">專車駛向禾木村</div>
+                        <div class="event-desc">穿梭於雪山白樺林畫卷中</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">15:00 - 18:30</div>
+                        <div class="event-title">禾木漫步與馬拉爬犁</div>
+                        <div class="event-desc">入住觀景木屋，體驗傳統馬拉爬犁穿梭雪地</div>
+                        <a href="https://maps.google.com/?q=Hemu+Village+Xinjiang" target="_blank" class="map-btn">📍 導航：禾木村景區</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">☕️ Day 5 <span class="date-tag">10/14 (三)</span></div>
+                    <span class="badge">禾木慢活一日</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">08:00 - 10:30</div>
+                        <div class="event-title">登禾木觀景台</div>
+                        <div class="event-desc">俯瞰日出晨霧與炊煙嫋嫋的古村全景</div>
+                        <a href="https://maps.google.com/?q=Hemu+Viewing+Platform" target="_blank" class="map-btn">📍 導航：禾木觀景台</a>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">11:00 - 18:00</div>
+                        <div class="event-title">潑水成冰 ＆ 雪地咖啡館</div>
+                        <div class="event-desc">體驗潑水成冰攝影，於河畔咖啡館喝熱朱古力</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🗿 Day 6 <span class="date-tag">10/15 (四)</span></div>
+                    <span class="badge">雅丹魔鬼城</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">09:30 - 15:00</div>
+                        <div class="event-title">下山前往克拉瑪依</div>
+                        <div class="event-desc">告別禾木，駛向石油城克拉瑪依</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">15:00 - 18:00</div>
+                        <div class="event-title">烏爾禾世界魔鬼城</div>
+                        <div class="event-desc">搭乘景區小火車穿梭風蝕雅丹地貌</div>
+                        <a href="https://maps.google.com/?q=Urho+Demon+Castle" target="_blank" class="map-btn">📍 導航：世界魔鬼城</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">💧 Day 7 <span class="date-tag">10/16 (五)</span></div>
+                    <span class="badge">藍冰賽里木湖</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">08:00 - 16:30</div>
+                        <div class="event-title">賽里木湖環湖</div>
+                        <div class="event-desc">包車直入景區，尋找初冬「夢幻冰泡」與藍冰</div>
+                        <a href="https://maps.google.com/?q=Sayram+Lake" target="_blank" class="map-btn">📍 導航：賽里木湖</a>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">16:30 - 20:30</div>
+                        <div class="event-title">返抵烏魯木齊機場附近</div>
+                        <div class="event-desc">享用離疆大盤雞晚宴，包車服務圓滿結束</div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Day 8 -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🏠 Day 8 <span class="date-tag">10/17 (六)</span></div>
+                    <span class="badge">輕鬆返港</span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-item">
+                        <div class="time">08:00 - 10:15</div>
+                        <div class="event-title">烏魯木齊機場 Check-in</div>
+                        <div class="event-desc">搭乘酒店接駁車至機場辦理託運</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="time">10:15 - 15:40</div>
+                        <div class="event-title">國泰直航班機返港</div>
+                        <div class="event-desc">搭乘 CX997 順利回到香港！</div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: 交通與住宿 -->
+        <div id="logistics" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🚗 包車與交通資訊</div>
+                </div>
+                <div class="summary-box">
+                    <strong>車型：</strong>4WD 四驅越野車（指定雪地胎/冬胎）<br>
+                    <strong>用車期：</strong>10/11 - 10/16（6天全程全包）
+                </div>
+                <table class="info-table">
+                    <tr>
+                        <th>項目</th>
+                        <th>詳情</th>
+                    </tr>
+                    <tr>
+                        <td>去程航班</td>
+                        <td>10/10 18:35 香港 ➔ 01:15 烏魯木齊 (HX456)</td>
+                    </tr>
+                    <tr>
+                        <td>回程航班</td>
+                        <td>10/17 10:15 烏魯木齊 ➔ 15:40 香港 (CX997)</td>
+                    </tr>
+                    <tr>
+                        <td>包車服務</td>
+                        <td>含車費、司機食宿、油費、過路費、停車費</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🏨 全程住宿預定</div>
+                </div>
+                <table class="info-table">
+                    <tr>
+                        <th>日期</th>
+                        <th>地點 / 飯店名稱</th>
+                    </tr>
+                    <tr>
+                        <td>10/10</td>
+                        <td>烏魯木齊全季酒店（地窩堡機場店）</td>
+                    </tr>
+                    <tr>
+                        <td>10/11</td>
+                        <td>布爾津蘇通假日酒店</td>
+                    </tr>
+                    <tr>
+                        <td>10/12</td>
+                        <td>喀納斯鑒苑山莊（暖氣木屋）</td>
+                    </tr>
+                    <tr>
+                        <td>10/13 - 10/14</td>
+                        <td>禾木桃源山莊 / 御園山莊（連住2晚）</td>
+                    </tr>
+                    <tr>
+                        <td>10/15</td>
+                        <td>克拉瑪依博達銀河大酒店</td>
+                    </tr>
+                    <tr>
+                        <td>10/16</td>
+                        <td>烏魯木齊美侖酒店（機場店）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: 行李清單 -->
+        <div id="packing" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">🧥 穿搭禦寒裝備</div>
+                </div>
+                <ul class="checklist">
+                    <li><input type="checkbox"> 防風防水防寒大衣 / 厚羽絨外套</li>
+                    <li><input type="checkbox"> 抓絨衣（Fleece）/ 厚羊毛衫</li>
+                    <li><input type="checkbox"> 發熱保暖內衣 2–3 套</li>
+                    <li><input type="checkbox"> 防風雪褲 / 保暖內搭褲</li>
+                    <li><input type="checkbox"> 高筒防滑防水雪地靴 ＋ 厚羊毛襪</li>
+                    <li><input type="checkbox"> 毛帽、厚圍巾、防水保暖手套</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">⚡️ 電子與隨身用品</div>
+                </div>
+                <ul class="checklist">
+                    <li><input type="checkbox"> 行動電源 (10000mAh+) ＋ 手機暖貼</li>
+                    <li><input type="checkbox"> 保濕面霜、潤唇膏、身體乳液</li>
+                    <li><input type="checkbox"> 高係數防曬乳 ＋ 太陽眼鏡</li>
+                    <li><input type="checkbox"> 保溫瓶 (500ml+)</li>
+                    <li><input type="checkbox"> 港澳居民來往內地通行證（回鄉證）</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB 4: 預算與實用資訊 -->
+        <div id="budget" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">💰 2人預算總覽 (HKD)</div>
+                </div>
+                <table class="info-table">
+                    <tr>
+                        <th>項目</th>
+                        <th>2人總額</th>
+                        <th>每人分攤</th>
+                    </tr>
+                    <tr>
+                        <td>直飛機票 (含行李)</td>
+                        <td>$3,400</td>
+                        <td>$1,700</td>
+                    </tr>
+                    <tr>
+                        <td>6天4WD越野包車</td>
+                        <td>$7,700</td>
+                        <td>$3,850</td>
+                    </tr>
+                    <tr>
+                        <td>7晚精選住宿/木屋</td>
+                        <td>$4,500</td>
+                        <td>$2,250</td>
+                    </tr>
+                    <tr>
+                        <td>景區門票與馬拉爬犁</td>
+                        <td>$2,300</td>
+                        <td>$1,150</td>
+                    </tr>
+                    <tr>
+                        <td>8天美食餐飲費</td>
+                        <td>$2,200</td>
+                        <td>$1,100</td>
+                    </tr>
+                    <tr>
+                        <td><strong>預估總計</strong></td>
+                        <td><strong>$20,100</strong></td>
+                        <td><strong>~$10,050</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="day-title">ℹ️ 實用提示</div>
+                </div>
+                <div class="summary-box">
+                    • <strong>網路支付：</strong>廣泛支援微信支付 (WeChat Pay) 與支付寶 (Alipay)。<br>
+                    • <strong>證件隨身帶：</strong>沿途設有安全檢查站，請隨身攜帶回鄉證。<br>
+                    • <strong>低溫提示：</strong>木屋室內暖氣充足乾燥，請多補充水分。
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 底部導航列 -->
+    <nav class="nav-bar">
+        <button class="nav-item active" onclick="switchTab('itinerary', this)">
+            <span class="icon">🗺️</span>
+            <span>每日行程</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('logistics', this)">
+            <span class="icon">🚗</span>
+            <span>交通住宿</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('packing', this)">
+            <span class="icon">🎒</span>
+            <span>行李清單</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('budget', this)">
+            <span class="icon">💰</span>
+            <span>預算資訊</span>
+        </button>
+    </nav>
+
+    <script>
+        function switchTab(tabId, element) {
+            // 切換 Tab 內容
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+
+            // 切換 導航列樣式
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            // 自動置頂
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
