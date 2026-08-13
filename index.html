@@ -1,283 +1,652 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>新疆金秋之旅 2026</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>北疆慢遊隨身手冊</title>
   <style>
-    .tab-btn.active {
-      border-bottom: 2px solid #2563eb;
-      color: #2563eb;
-      font-weight: bold;
+    /* --- 全局樣式與主題配色 --- */
+    :root {
+      --primary: #1b4965;      /* 喀納斯湖深藍 */
+      --secondary: #62b6cb;    /* 賽里木湖青藍 */
+      --accent: #d9822b;       /* 禾木金秋黃/落日橘 */
+      --bg-light: #f4f7f6;     /* 雪山純淨白/淺灰背景 */
+      --card-bg: #ffffff;
+      --text-main: #2b2d42;
+      --text-muted: #6c757d;
+      --border: #e2e8f0;
+      --nav-height: 65px;
     }
-    .badge-ok {
-      background-color: #f0fdf4;
-      color: #16a34a;
-      border: 1px solid #86efac;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-main);
+      padding-bottom: calc(var(--nav-height) + 20px);
+    }
+
+    /* --- 頁首 Header --- */
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    /* --- 內容區域 --- */
+    main {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 卡片通用樣式 --- */
+    .card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+    }
+
+    .card h2 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin: 10px 0 6px;
+    }
+
+    p, li {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+
+    /* --- Google Map 按鈕 --- */
+    .map-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background-color: var(--secondary);
+      color: white;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 20px;
+      margin-top: 10px;
+      box-shadow: 0 2px 6px rgba(98, 182, 203, 0.4);
+      transition: background 0.2s;
+    }
+
+    .map-btn:active {
+      background-color: var(--primary);
+    }
+
+    /* --- 待辦事項 (Checklist) --- */
+    .todo-input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    input[type="text"], input[type="number"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus {
+      border-color: var(--secondary);
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn:active {
+      opacity: 0.9;
+    }
+
+    .todo-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .todo-item:last-child {
+      border-bottom: none;
+    }
+
+    .todo-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .todo-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #e63946;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    /* --- 預算記帳區 --- */
+    .budget-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+      background: #eef7f9;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    .budget-summary div span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .budget-summary div strong {
+      font-size: 0.95rem;
+      color: var(--primary);
+    }
+
+    .expense-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.88rem;
+    }
+
+    /* --- 司機行程表專用 --- */
+    .driver-card {
+      background: #fff8f0;
+      border-left: 4px solid var(--accent);
+    }
+
+    .driver-day {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .driver-route {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    /* --- 底部導航列 --- */
+    nav.bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      text-decoration: none;
+      width: 14%;
+      height: 100%;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-item .icon {
+      font-size: 1.2rem;
+      margin-bottom: 2px;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      font-weight: bold;
     }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans pb-20">
+<body>
 
-  <!-- Header -->
-  <header class="bg-blue-600 text-white p-4 text-center shadow-md sticky top-0 z-50">
-    <h1 class="text-xl font-bold">🍂 新疆金秋之旅 2026</h1>
-    <p class="text-xs text-blue-100 mt-1">10月10日 — 10月17日 (8天行程指南)</p>
+  <!-- 頁首 -->
+  <header>
+    <h1>🌲 北疆不趕路慢游記</h1>
+    <p>深度湖山 • 寧靜純粹 • 輕鬆慢行</p>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="bg-white shadow border-b sticky top-[60px] z-40 flex justify-around text-sm overflow-x-auto">
-    <button onclick="switchTab('itinerary')" id="tab-itinerary" class="tab-btn active py-3 px-2 flex-1 text-center whitespace-nowrap">每日行程</button>
-    <button onclick="switchTab('hotels')" id="tab-hotels" class="tab-btn py-3 px-2 flex-1 text-center whitespace-nowrap">酒店預訂</button>
-    <button onclick="switchTab('driver')" id="tab-driver" class="tab-btn py-3 px-2 flex-1 text-center whitespace-nowrap">司机简易行程</button>
-    <button onclick="switchTab('budget')" id="tab-budget" class="tab-btn py-3 px-2 flex-1 text-center whitespace-nowrap">記帳與預算</button>
-  </nav>
-
-  <!-- Main Content Area -->
-  <main class="max-w-md mx-auto p-4 space-y-4">
-
-    <!-- 1. 每日行程 TAB -->
-    <section id="sec-itinerary" class="space-y-4">
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D1 · 10/10 (週六)</span>
-        <h2 class="text-lg font-bold mt-2">抵達烏魯木齊</h2>
-        <p class="text-sm text-gray-600 mt-1">入住烏魯木齊天山國際機場附近酒店，適應時差與休息。</p>
-        <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-100 text-xs text-blue-900">
-          <p class="font-bold">🏨 已預約酒店：如家·neo (烏魯木齊天山國際機場店)</p>
-          <p class="text-red-600 mt-0.5">⏳ 免費取消截至：2026-10-10 18:00 前</p>
-        </div>
+  <main>
+    <!-- 1. 每日行程 -->
+    <section id="itinerary" class="tab-content active">
+      <div class="card">
+        <h2>🗓️ Day 1: 抵達烏魯木齊</h2>
+        <p><strong>行程：</strong>入住酒店、適應時差與氣候、市區漫步。</p>
+        <p><strong>建議：</strong>逛新疆博物館或大巴札，品嚐手抓飯與酸奶。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=烏魯木齊新疆國際大巴扎" target="_blank">📍 導航至國際大巴札</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D2 · 10/11 (週日)</span>
-        <h2 class="text-lg font-bold mt-2">烏魯木齊 ➔ 北屯 / 阿勒泰</h2>
-        <p class="text-sm text-gray-600 mt-1">出發穿越公路前往阿勒泰地區，沿途欣賞戈壁金秋風光。</p>
+      <div class="card">
+        <h2>🚄 Day 2: 烏魯木齊 ➔ 阿勒泰 / 奎屯</h2>
+        <p><strong>行程：</strong>搭乘城際列車或國內航班，省去長途拉車疲勞。</p>
+        <p><strong>亮點：</strong>輕鬆移動，準備進入北疆精華區。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=阿勒泰站" target="_blank">📍 導航至阿勒泰站</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D3 · 10/12 (週一)</span>
-        <h2 class="text-lg font-bold mt-2">阿勒泰 ➔ 禾木村</h2>
-        <p class="text-sm text-gray-600 mt-1">進入「神的自留地」禾木村，觀賞木屋、晨霧與滿山黃葉。</p>
+      <div class="card">
+        <h2>🏔️ Day 3: 喀納斯湖 (宿景區/賈登峪)</h2>
+        <p><strong>行程：</strong>進入喀納斯景區，遊覽喀納斯湖。</p>
+        <p><strong>放慢心法：</strong>不趕景點，沿湖邊木棧道漫步。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=喀納斯湖景區" target="_blank">📍 導航至喀納斯湖</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D4 · 10/13 (週二)</span>
-        <h2 class="text-lg font-bold mt-2">禾木村 ➔ 喀納斯</h2>
-        <p class="text-sm text-gray-600 mt-1">遊覽神仙灣、月亮灣、臥龍灣，欣賞喀納斯湖絢麗秋色。</p>
+      <div class="card">
+        <h2>🌊 Day 4: 喀納斯三灣深度慢遊</h2>
+        <p><strong>行程：</strong>神仙灣晨霧 ➔ 月亮灣 ➔ 臥龍灣。</p>
+        <p><strong>放慢心法：</strong>預留一整天給三灣，步行與區間車結合。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=喀納斯月亮灣" target="_blank">📍 導航至月亮灣</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D5 · 10/14 (週三)</span>
-        <h2 class="text-lg font-bold mt-2">喀納斯 ➔ 布爾津</h2>
-        <p class="text-sm text-gray-600 mt-1">觀賞五彩灘日落雅丹地貌，晚上品嚐布爾津夜市烤魚。</p>
+      <div class="card">
+        <h2>🏡 Day 5: 喀納斯 ➔ 禾木村</h2>
+        <p><strong>行程：</strong>車程約 2.5 小時，午後抵達禾木木屋聚落。</p>
+        <p><strong>建議：</strong>喝喝下午茶、村內散步、夜晚看滿天星空。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=禾木風景區" target="_blank">📍 導航至禾木村</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D6 · 10/15 (週四)</span>
-        <h2 class="text-lg font-bold mt-2">布爾津 ➔ 克拉瑪依</h2>
-        <p class="text-sm text-gray-600 mt-1">途經烏爾禾魔鬼城，欣賞風蝕雅丹地形，入住克拉瑪依市區。</p>
-        <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-100 text-xs text-blue-900">
-          <p class="font-bold">🏨 已預約酒店：克拉瑪依泰富廣場一號井麗呈酒店</p>
-          <p class="text-red-600 mt-0.5">⏳ 免費取消截至：2026-10-15 23:59 前</p>
-        </div>
+      <div class="card">
+        <h2>🌅 Day 6: 禾木 ➔ 布爾津 (五彩灘)</h2>
+        <p><strong>行程：</strong>禾木觀景台睇日出 ➔ 五彩灘賞日落。</p>
+        <p><strong>亮點：</strong>五彩灘雅丹地貌與額爾齊斯河夕陽美景。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=五彩灘景區" target="_blank">📍 導航至五彩灘</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D7 · 10/16 (週五)</span>
-        <h2 class="text-lg font-bold mt-2">克拉瑪依 ➔ 烏魯木齊</h2>
-        <p class="text-sm text-gray-600 mt-1">返回烏魯木齊，可前往新疆國際大巴扎採購伴手禮。</p>
-        <div class="mt-3 p-2 bg-blue-50 rounded border border-blue-100 text-xs text-blue-900">
-          <p class="font-bold">🏨 已預約酒店：如家·neo (烏魯木齊天山國際機場店)</p>
-          <p class="text-red-600 mt-0.5">⏳ 免費取消截至：2026-10-16 18:00 前</p>
-        </div>
+      <div class="card">
+        <h2>🏜️ Day 7: 布爾津 ➔ 克拉瑪依 (世界魔鬼城)</h2>
+        <p><strong>行程：</strong>參觀世界魔鬼城，搭乘景區小火車。</p>
+        <p><strong>亮點：</strong>風蝕風貌，感受大自然的鬼斧神工。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=世界魔鬼城" target="_blank">📍 導航至魔鬼城</a>
       </div>
 
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">D8 · 10/17 (週六)</span>
-        <h2 class="text-lg font-bold mt-2">烏魯木齊 ➔ 返程</h2>
-        <p class="text-sm text-gray-600 mt-1">整理行李前往機場，搭機返家，結束愉快的新疆之行。</p>
+      <div class="card">
+        <h2>💎 Day 8: 克拉瑪依 ➔ 賽里木湖</h2>
+        <p><strong>行程：</strong>前往「大西洋最後一滴眼淚」賽里木湖。</p>
+        <p><strong>放慢心法：</strong>入住湖邊或果子溝，準備明日環湖。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=賽里木湖" target="_blank">📍 導航至賽里木湖</a>
+      </div>
+
+      <div class="card">
+        <h2>🚗 Day 9: 賽里木湖環湖 ➔ 返回烏魯木齊</h2>
+        <p><strong>行程：</strong>環湖自駕/搭車漫遊 ➔ 經連霍高速返回烏魯木齊。</p>
+        <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=果子溝大橋" target="_blank">📍 導航至果子溝大橋</a>
+      </div>
+
+      <div class="card">
+        <h2>✈️ Day 10: 烏魯木齊 ➔ 溫馨的家</h2>
+        <p><strong>行程：</strong>購買伴手禮，前往機場/車站返程。</p>
       </div>
     </section>
 
-    <!-- 2. 酒店預訂 TAB -->
-    <section id="sec-hotels" class="hidden space-y-4">
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded text-xs text-blue-800">
-        💡 提示：請注意各酒店的免費取消期限，逾期修改將無法退款。
+    <!-- 2. 交通指南 -->
+    <section id="transport" class="tab-content">
+      <div class="card">
+        <h2>🚗 包車 / 自駕建議</h2>
+        <ul>
+          <li><strong>慢遊原則：</strong>單日開車盡量控制在 3-4 小時以內。</li>
+          <li><strong>車型挑選：</strong>建議選擇 SUV 或商務車（如 GL8），長途乘坐更舒適。</li>
+          <li><strong>路況提示：</strong>山路較多，遵守限速，不疲勞駕駛。</li>
+        </ul>
       </div>
-
-      <!-- Hotel Item 1 -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-2">
-        <div class="flex justify-between items-start">
-          <span class="text-xs bg-gray-100 font-semibold text-gray-700 px-2 py-0.5 rounded">10月10日 (週六)</span>
-          <span class="badge-ok text-xs font-bold px-2 py-0.5 rounded">已確認</span>
-        </div>
-        <h3 class="font-bold text-gray-900">如家·neo (烏魯木齊天山國際機場店)</h3>
-        <p class="text-xs text-gray-500">訂單編號：1359046665319360</p>
-        <div class="border-t pt-2 flex justify-between items-center text-xs">
-          <span class="text-red-600 font-medium">⏳ 免費取消至：10月10日 18:00</span>
-          <span class="font-bold text-gray-800">HK$ 291.56</span>
-        </div>
-      </div>
-
-      <!-- Hotel Item 2 -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-2">
-        <div class="flex justify-between items-start">
-          <span class="text-xs bg-gray-100 font-semibold text-gray-700 px-2 py-0.5 rounded">10月15日 (週四)</span>
-          <span class="badge-ok text-xs font-bold px-2 py-0.5 rounded">處理中</span>
-        </div>
-        <h3 class="font-bold text-gray-900">克拉瑪依泰富廣場一號井麗呈酒店</h3>
-        <p class="text-xs text-gray-500">訂單編號：135904666571662</p>
-        <div class="border-t pt-2 flex justify-between items-center text-xs">
-          <span class="text-red-600 font-medium">⏳ 免費取消至：10月15日 23:59</span>
-          <span class="font-bold text-gray-800">HK$ 407.44</span>
-        </div>
-      </div>
-
-      <!-- Hotel Item 3 -->
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-2">
-        <div class="flex justify-between items-start">
-          <span class="text-xs bg-gray-100 font-semibold text-gray-700 px-2 py-0.5 rounded">10月16日 (週五)</span>
-          <span class="badge-ok text-xs font-bold px-2 py-0.5 rounded">已確認 (已退差額)</span>
-        </div>
-        <h3 class="font-bold text-gray-900">如家·neo (烏魯木齊天山國際機場店)</h3>
-        <p class="text-xs text-gray-500">訂單編號：1359046665378852</p>
-        <div class="border-t pt-2 flex justify-between items-center text-xs">
-          <span class="text-red-600 font-medium">⏳ 免費取消至：10月16日 18:00</span>
-          <span class="font-bold text-gray-800">HK$ 225.30</span>
-        </div>
+      <div class="card">
+        <h2>✈️ 段落大交通</h2>
+        <ul>
+          <li><strong>烏魯木齊 ➔ 阿勒泰：</strong>可選國內航班或夜臥列車，大幅省去 800 公里陸路。</li>
+          <li><strong>景區內交通：</strong>喀納斯、禾木均需轉乘景區統一區間車。</li>
+        </ul>
       </div>
     </section>
 
-    <!-- 3. 司机简易行程 TAB (简体字) -->
-    <section id="sec-driver" class="hidden space-y-4">
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded text-xs text-amber-800">
-        🚗 本页专为包车司机提供，方便展示每日路线与接送安排。
-      </div>
-
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 space-y-3">
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D1 - 10/10 (周六)</span>
-          <p class="text-sm font-semibold text-gray-800">乌鲁木齐接机 ➔ 酒店</p>
-          <p class="text-xs text-gray-500">入住：如家·neo (乌鲁木齐天山国际机场店)</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D2 - 10/11 (周日)</span>
-          <p class="text-sm font-semibold text-gray-800">乌鲁木齐 ➔ 北屯 / 阿勒泰</p>
-          <p class="text-xs text-gray-500">穿越S21沙漠公路前往阿勒泰</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D3 - 10/12 (周一)</span>
-          <p class="text-sm font-semibold text-gray-800">阿勒泰 ➔ 禾木景区</p>
-          <p class="text-xs text-gray-500">前往禾木换乘中心，入住禾木村内</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D4 - 10/13 (周二)</span>
-          <p class="text-sm font-semibold text-gray-800">禾木 ➔ 喀纳斯景区</p>
-          <p class="text-xs text-gray-500">游览神仙湾、月亮湾、卧龙湾</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D5 - 10/14 (周三)</span>
-          <p class="text-sm font-semibold text-gray-800">喀纳斯 ➔ 五彩滩 ➔ 布尔津</p>
-          <p class="text-xs text-gray-500">傍晚游览五彩滩日落，晚上入住布尔津县</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D6 - 10/15 (周四)</span>
-          <p class="text-sm font-semibold text-gray-800">布尔津 ➔ 魔鬼城 ➔ 克拉玛依</p>
-          <p class="text-xs text-gray-500">入住：克拉玛依泰富广场一号井丽呈酒店</p>
-        </div>
-
-        <div class="border-b pb-2">
-          <span class="font-bold text-blue-600">D7 - 10/16 (周五)</span>
-          <p class="text-sm font-semibold text-gray-800">克拉玛依 ➔ 乌鲁木齐</p>
-          <p class="text-xs text-gray-500">入住：如家·neo (乌鲁木齐天山国际机场店)</p>
-        </div>
-
-        <div>
-          <span class="font-bold text-blue-600">D8 - 10/17 (周六)</span>
-          <p class="text-sm font-semibold text-gray-800">酒店 ➔ 乌鲁木齐机场送机</p>
-          <p class="text-xs text-gray-500">根据航班时间送至天山国际机场</p>
-        </div>
+    <!-- 3. 住宿安排 -->
+    <section id="stay" class="tab-content">
+      <div class="card">
+        <h2>🏨 慢遊住宿心法</h2>
+        <h3>1. 喀納斯/賈登峪 (連住 2 晚)</h3>
+        <p>不用天天搬行李，能徹底放鬆體驗湖畔晨昏變化。</p>
+        <h3>2. 禾木村 (木屋民宿 1 晚)</h3>
+        <p>體驗圖瓦人特色小木屋，方便清晨步行至觀景台睇晨霧。</p>
+        <h3>3. 賽里木湖 / 果子溝 (1 晚)</h3>
+        <p>選擇湖景民宿或星空帳篷，觀賞湖畔日落與夜間星河。</p>
       </div>
     </section>
 
-    <!-- 4. 記帳與預算 TAB -->
-    <section id="sec-budget" class="hidden space-y-4">
-      <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-        <h2 class="font-bold text-gray-800 mb-3 text-base">💰 費用總計 (數字可直接編輯)</h2>
-        <table class="w-full text-left text-xs">
-          <thead>
-            <tr class="border-b bg-gray-50 text-gray-600">
-              <th class="p-2">項目</th>
-              <th class="p-2">預估 (HK$)</th>
-              <th class="p-2 text-blue-600">實際支出 (HK$)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y">
-            <tr>
-              <td class="p-2 font-medium">來回機票</td>
-              <td class="p-2"><input type="number" value="3500" class="b-input w-16 border rounded p-1 text-xs" oninput="calcTotal()"></td>
-              <td class="p-2"><input type="number" value="0" class="a-input w-16 border rounded p-1 text-xs bg-blue-50" oninput="calcTotal()"></td>
-            </tr>
-            <tr>
-              <td class="p-2 font-medium">酒店住宿</td>
-              <td class="p-2"><input type="number" value="2500" class="b-input w-16 border rounded p-1 text-xs" oninput="calcTotal()"></td>
-              <td class="p-2"><input type="number" value="924" class="a-input w-16 border rounded p-1 text-xs bg-blue-50" oninput="calcTotal()"></td>
-            </tr>
-            <tr>
-              <td class="p-2 font-medium">包車/交通</td>
-              <td class="p-2"><input type="number" value="2000" class="b-input w-16 border rounded p-1 text-xs" oninput="calcTotal()"></td>
-              <td class="p-2"><input type="number" value="0" class="a-input w-16 border rounded p-1 text-xs bg-blue-50" oninput="calcTotal()"></td>
-            </tr>
-            <tr>
-              <td class="p-2 font-medium">景區門票</td>
-              <td class="p-2"><input type="number" value="800" class="b-input w-16 border rounded p-1 text-xs" oninput="calcTotal()"></td>
-              <td class="p-2"><input type="number" value="0" class="a-input w-16 border rounded p-1 text-xs bg-blue-50" oninput="calcTotal()"></td>
-            </tr>
-            <tr>
-              <td class="p-2 font-medium">餐飲與雜費</td>
-              <td class="p-2"><input type="number" value="1200" class="b-input w-16 border rounded p-1 text-xs" oninput="calcTotal()"></td>
-              <td class="p-2"><input type="number" value="0" class="a-input w-16 border rounded p-1 text-xs bg-blue-50" oninput="calcTotal()"></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="mt-4 pt-3 border-t flex justify-between items-center text-sm font-bold">
-          <div>預估總額: <span id="total-budget" class="text-gray-700">HK$ 0</span></div>
-          <div>實際總額: <span id="total-actual" class="text-blue-600">HK$ 0</span></div>
-        </div>
+    <!-- 4. 行李清單 -->
+    <section id="luggage" class="tab-content">
+      <div class="card">
+        <h2>🎒 必備裝備清單</h2>
+        <ul>
+          <li><strong>保暖衣物：</strong>早晚溫差極大（洋蔥式穿法、羽絨外套/衝鋒衣）。</li>
+          <li><strong>防曬用品：</strong>高 SPF 防曬乳、墨鏡、遮陽帽、護唇膏。</li>
+          <li><strong>個人藥品：</strong>感冒藥、腸胃藥、暈車藥、保濕護膚品。</li>
+          <li><strong>隨身證件：</strong>身分證/護照（邊境檢查站頻繁需隨身攜帶）。</li>
+          <li><strong>電子設備：</strong>行動電源（低溫耗電快）、相機備用電池。</li>
+        </ul>
       </div>
     </section>
 
+    <!-- 5. 預算與記帳 -->
+    <section id="budget" class="tab-content">
+      <div class="card">
+        <h2>💰 旅遊預算與記帳</h2>
+        <div class="todo-input-group">
+          <input type="number" id="totalBudgetInput" placeholder="設定總預算 (CNY)">
+          <button class="btn" onclick="setBudget()">設定</button>
+        </div>
+        <div class="budget-summary">
+          <div><span>總預算</span><strong id="displayBudget">0</strong></div>
+          <div><span>總支出</span><strong id="displaySpent">0</strong></div>
+          <div><span>剩餘</span><strong id="displayRemaining">0</strong></div>
+        </div>
+
+        <h3>➕ 新增一筆支出</h3>
+        <div class="todo-input-group">
+          <input type="text" id="expenseName" placeholder="項目 (如: 包車、晚餐)">
+          <input type="number" id="expenseAmount" placeholder="金額">
+          <button class="btn" onclick="addExpense()">記錄</button>
+        </div>
+
+        <ul class="expense-list" id="expenseList"></ul>
+      </div>
+    </section>
+
+    <!-- 6. 待辦事項 (Checklist) -->
+    <section id="todos" class="tab-content">
+      <div class="card">
+        <h2>✅ 行前與旅程待辦事項</h2>
+        <div class="todo-input-group">
+          <input type="text" id="todoInput" placeholder="新增待辦事項 (如: 買保險)">
+          <button class="btn" onclick="addTodo()">新增</button>
+        </div>
+        <ul class="todo-list" id="todoList"></ul>
+      </div>
+    </section>
+
+    <!-- 7. 給司機看的行程表 -->
+    <section id="driver" class="tab-content">
+      <div class="card driver-card">
+        <h2>🚘 司機專用行程概要 (大字簡版)</h2>
+        <p style="margin-bottom: 12px; color: var(--text-muted);">（師傅您好，這是我們這次北疆行的預計路線，原則上不趕路、慢遊為主）</p>
+
+        <div class="driver-day">D1</div>
+        <div class="driver-route">烏魯木齊接機 / 酒店休息</div>
+
+        <div class="driver-day">D2</div>
+        <div class="driver-route">烏魯木齊 ➔ 阿勒泰 / 奎屯</div>
+
+        <div class="driver-day">D3</div>
+        <div class="driver-route">前往 喀納斯景區 (宿賈登峪/景區)</div>
+
+        <div class="driver-day">D4</div>
+        <div class="driver-route">喀納斯景區 (深度遊神仙灣/月亮灣/臥龍灣)</div>
+
+        <div class="driver-day">D5</div>
+        <div class="driver-route">喀納斯 ➔ 禾木村 (宿禾木木屋)</div>
+
+        <div class="driver-day">D6</div>
+        <div class="driver-route">禾木 ➔ 布爾津 (傍晚遊 五彩灘)</div>
+
+        <div class="driver-day">D7</div>
+        <div class="driver-route">布爾津 ➔ 克拉瑪依 (世界魔鬼城)</div>
+
+        <div class="driver-day">D8</div>
+        <div class="driver-route">克拉瑪依 ➔ 賽里木湖景區</div>
+
+        <div class="driver-day">D9</div>
+        <div class="driver-route">賽里木湖環湖 ➔ 果子溝 ➔ 返回烏魯木齊</div>
+
+        <div class="driver-day">D10</div>
+        <div class="driver-route">烏魯木齊市區 ➔ 送機 / 返程</div>
+      </div>
+    </section>
   </main>
 
+  <!-- 底部固定導航列 -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('itinerary', this)">
+      <span class="icon">🗓️</span>行程
+    </button>
+    <button class="nav-item" onclick="switchTab('transport', this)">
+      <span class="icon">🚗</span>交通
+    </button>
+    <button class="nav-item" onclick="switchTab('stay', this)">
+      <span class="icon">🏨</span>住宿
+    </button>
+    <button class="nav-item" onclick="switchTab('luggage', this)">
+      <span class="icon">🎒</span>行李
+    </button>
+    <button class="nav-item" onclick="switchTab('budget', this)">
+      <span class="icon">💰</span>預算
+    </button>
+    <button class="nav-item" onclick="switchTab('todos', this)">
+      <span class="icon">✅</span>待辦
+    </button>
+    <button class="nav-item" onclick="switchTab('driver', this)">
+      <span class="icon">🚘</span>司機
+    </button>
+  </nav>
+
   <script>
-    function switchTab(tab) {
-      document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      document.getElementById('sec-' + tab).classList.remove('hidden');
-      document.getElementById('tab-' + tab).classList.add('active');
+    // --- 頁面分頁切換 ---
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      el.classList.add('active');
+      window.scrollTo(0, 0);
     }
 
-    function calcTotal() {
-      let bTotal = 0;
-      let aTotal = 0;
-      
-      document.querySelectorAll('.b-input').forEach(i => bTotal += Number(i.value) || 0);
-      document.querySelectorAll('.a-input').forEach(i => aTotal += Number(i.value) || 0);
-      
-      document.getElementById('total-budget').innerText = 'HK$ ' + bTotal;
-      document.getElementById('total-actual').innerText = 'HK$ ' + aTotal;
+    // --- 待辦事項 (Checklist) JavaScript 邏輯 ---
+    let todos = JSON.parse(localStorage.getItem('nk_todos')) || [
+      { text: "準備台胞證 / 身分證件", done: false },
+      { text: "預訂烏魯木齊及景區住宿", done: false },
+      { text: "購買旅遊人身保險", done: false }
+    ];
+
+    function renderTodos() {
+      const list = document.getElementById('todoList');
+      list.innerHTML = '';
+      todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.done ? 'done' : ''}`;
+        li.innerHTML = `
+          <div class="todo-left">
+            <input type="checkbox" ${todo.done ? 'checked' : ''} onchange="toggleTodo(${index})">
+            <span>${todo.text}</span>
+          </div>
+          <button class="delete-btn" onclick="deleteTodo(${index})">🗑️</button>
+        `;
+        list.appendChild(li);
+      });
+      localStorage.setItem('nk_todos', JSON.stringify(todos));
     }
 
-    // 初始化計算總額
-    calcTotal();
+    function addTodo() {
+      const input = document.getElementById('todoInput');
+      if (input.value.trim() !== '') {
+        todos.push({ text: input.value.trim(), done: false });
+        input.value = '';
+        renderTodos();
+      }
+    }
+
+    function toggleTodo(index) {
+      todos[index].done = !todos[index].done;
+      renderTodos();
+    }
+
+    function deleteTodo(index) {
+      todos.splice(index, 1);
+      renderTodos();
+    }
+
+    // --- 預算與記帳 JavaScript 邏輯 ---
+    let totalBudget = parseFloat(localStorage.getItem('nk_budget')) || 10000;
+    let expenses = JSON.parse(localStorage.getItem('nk_expenses')) || [];
+
+    function setBudget() {
+      const input = document.getElementById('totalBudgetInput');
+      if (input.value) {
+        totalBudget = parseFloat(input.value);
+        localStorage.setItem('nk_budget', totalBudget);
+        input.value = '';
+        renderBudget();
+      }
+    }
+
+    function addExpense() {
+      const nameInput = document.getElementById('expenseName');
+      const amountInput = document.getElementById('expenseAmount');
+
+      if (nameInput.value.trim() !== '' && amountInput.value) {
+        expenses.push({
+          name: nameInput.value.trim(),
+          amount: parseFloat(amountInput.value)
+        });
+        nameInput.value = '';
+        amountInput.value = '';
+        renderBudget();
+      }
+    }
+
+    function deleteExpense(index) {
+      expenses.splice(index, 1);
+      renderBudget();
+    }
+
+    function renderBudget() {
+      const totalSpent = expenses.reduce((sum, item) => sum + item.amount, 0);
+      const remaining = totalBudget - totalSpent;
+
+      document.getElementById('displayBudget').innerText = `¥${totalBudget.toLocaleString()}`;
+      document.getElementById('displaySpent').innerText = `¥${totalSpent.toLocaleString()}`;
+      document.getElementById('displayRemaining').innerText = `¥${remaining.toLocaleString()}`;
+
+      const list = document.getElementById('expenseList');
+      list.innerHTML = '';
+      expenses.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.className = 'expense-item';
+        li.innerHTML = `
+          <span>${item.name}</span>
+          <div>
+            <strong>¥${item.amount.toLocaleString()}</strong>
+            <button class="delete-btn" style="margin-left: 8px;" onclick="deleteExpense(${index})">✕</button>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+
+      localStorage.setItem('nk_expenses', JSON.stringify(expenses));
+    }
+
+    // 初始化載入
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTodos();
+      renderBudget();
+    });
   </script>
 </body>
 </html>
